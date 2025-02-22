@@ -7,8 +7,12 @@ from employee.models import Employee
 from leave.forms import RestrictLeaveForm
 
 from . import models, views
+from .views import inventory_list, add_inventory_item
 
 urlpatterns = [
+    path('inventory/', views.inventory_list, name='inventory_list'),
+    path('inventory/add/', views.add_inventory_item, name='add_inventory_item'),
+    path('inventory/edit/<int:item_id>/', views.edit_inventory_item, name='edit_inventory_item'),
     path("type-creation", views.leave_type_creation, name="type-creation"),
     path("type-view/", views.leave_type_view, name="type-view"),
     path(

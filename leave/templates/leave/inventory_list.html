@@ -1,0 +1,17 @@
+<!-- filepath: /Users/omererturk/Downloads/horilla-master/leave/templates/leave/inventory_list.html -->
+{% extends 'index.html' %}
+{% block content %}
+<h2>Inventory List</h2>
+<ul>
+  {% for item in items %}
+    <li>{{ item.name }} - {{ item.quantity }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Add Inventory Item</h2>
+<form method="post" action="{% url 'add_inventory_item' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Item</button>
+</form>
+{% endblock %}

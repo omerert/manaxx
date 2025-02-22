@@ -320,6 +320,13 @@ def leaveoverlaping(
     return overlapping_requests
 
 
+from .models import InventoryItem
+
+class InventoryItemForm(ModelForm):
+    class Meta:
+        model = InventoryItem
+        fields = ['name', 'description', 'quantity']
+
 class LeaveRequestCreationForm(ModelForm):
     start_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))

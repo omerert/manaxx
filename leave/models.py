@@ -1082,6 +1082,14 @@ class LeaveRequestConditionApproval(models.Model):
     leave_request_id = models.ForeignKey(LeaveRequest, on_delete=models.CASCADE)
     manager_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
 
+class InventoryItem(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    quantity = models.PositiveIntegerField(default=0)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 class RestrictLeave(HorillaModel):
     title = models.CharField(max_length=200)

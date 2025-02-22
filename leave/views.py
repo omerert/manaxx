@@ -64,6 +64,8 @@ from leave.models import *
 from leave.threading import LeaveMailSendThread
 from notifications.signals import notify
 
+from .models import InventoryItem
+from .forms import InventoryItemForm
 
 def generate_error_report(error_list, error_data, file_name):
     """
@@ -136,6 +138,37 @@ def paginator_qry(qryset, page_number):
     qryset = paginator.get_page(page_number)
     return qryset
 
+def inventory_list(request):
+    items = InventoryItem.objects.all()
+    if request.method == 'POST':
+        form = InventoryItemForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('inventory_list'))
+    else:
+        form = InventoryItemForm()
+    return render(request, 'leave/inventory_list.html', {'items': items, 'form': form})
+
+def add_inventory_item(request):
+    if request.method == 'POST':
+        form = InventoryItemForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('inventory_list'))
+    else:
+        form = InventoryItemForm()
+    return render(request, 'leave/add_inventory_item.html', {'form': form})
+
+def edit_inventory_item(request, item_id):
+    item = get_object_or_404(InventoryItem, id=item_id)
+    if request.method == 'POST':
+        form = InventoryItemForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('inventory_list'))
+    else:
+        form = InventoryItemForm(instance=item)
+    return render(request, 'leave/edit_inventory_item.html', {'form': form, 'item': item})
 
 @login_required
 @permission_required("leave.view_leavetype")
